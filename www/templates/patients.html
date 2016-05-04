@@ -1,0 +1,21 @@
+<ion-view view-title="Patients">
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="patient in patients | filter: {name: filter.patientName}" type="item-text-wrap" ng-click="details(patient.name)">
+        <img ng-src="{{patient.face}}">
+        <h2>{{patient.name}}</h2>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+    </ion-list>
+    <div class="bar bar-footer">
+      <button class="button button-clear ion-ios-search-strong pull-left"></button>
+      <div class="title">
+        <label class="item item-input">
+          <input type="text" placeholder="Search patient name" ng-model="filter.patientName">
+        </label>
+      </div>
+      <button class="button button-clear ion-android-microphone pull-right"></button>
+    </div>
+
+  </ion-content>
+</ion-view>

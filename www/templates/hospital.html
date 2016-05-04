@@ -1,0 +1,32 @@
+<ion-view view-title="Browse Your Work">
+  <ion-content style="background-color: lightgrey">
+    <div class="row">
+      <div class="col rel" ng-click="approval()">
+        <img src="img/waiting.jpg" height="150px" width="100%">
+        <div class="overlay"><p style="color: white">Awaiting Approval</p></div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:-15px">
+      <div class="col rel" ng-click="patients()">
+        <img src="img/patients.jpg" height="150px" width="100%">
+        <div class="overlay"><p style="color: white">List of Patients</p></div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:-15px">
+      <div class="col rel" ng-click="profile()">
+          <img src="img/profile.jpg" height="150px" width="100%">
+          <div class="overlay"><p style="color: white">My Profile</p></div>
+      </div>
+  </div>
+  <div class="row" style="margin-top:-15px">
+      <div class="col rel" ng-click="presult()">
+          <img src="img/profile.jpg" height="150px" width="100%">
+          <div class="overlay"><p style="color: white">Patient Result</p></div>
+      </div>
+  </div>
+
+    <div class="padding" style="margin-bottom:-10%">
+    <button class="button button-block button-assertive" ng-click="logout()">Logout</button>
+    </div>
+</ion-content>
+</ion-view>

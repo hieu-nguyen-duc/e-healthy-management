@@ -1,0 +1,25 @@
+<ion-view view-title="Contact Information">
+  <ion-content>
+    <div class="list">
+      <label class="item item-input">
+        <span class="input-label">Home Phone</span>
+        <input type="number" ng-model="user.phone" placeholder="    Enter Phone Number">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Mobile Number</span>
+        <input type="number" ng-model="user.mobile" placeholder="    Enter Mobile Number">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Fax</span>
+        <input type="number" ng-model="user.fax" placeholder="    Enter Fax Number">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">E-mail</span>
+          <input type="email" placeholder="    Enter e-mail here" ng-model="user.email">
+      </label><br/><br/><br/>
+      <div class="padding">
+        <button class="button button-positive button-block" ng-click="change()">Save </button>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,27 @@
+.overlay {
+   position: absolute;
+   top: 7%;
+   margin-left: 7%;
+   color: black;
+   text-transform: capitalize;
+   font-weight: bold;
+   
+}
+.rel {
+   position: relative;
+   
+
+}
+img { 
+  -webkit-filter: brightness(60%);
+    filter: brightness(60%);
+}
+img:hover{
+    -webkit-filter: brightness(90%);
+    filter: brightness(90%);
+}
+.profile-round{
+  height:150px;
+  width: 150px;
+  border-radius:50%;
+}
