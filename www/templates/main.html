@@ -18,27 +18,27 @@
     <div class="list" ng-show="signUp">
       <div>
       <center>
-        <img class="profile-round" ng-src="{{user.UserImage}}" height="90" ng-click="openCamera()"> 
+        <img class="profile-round" ng-src="{{user.UserImage}}" height="90" ng-click="openCamera()">
       </center>
          </div>
       <label class="item item-input">
         <span class="input-label">User Name</span>
-        <input type="text" ng-model="user.name" placeholder="       Enter name here">
+        <input type="text" ng-model="user.name" placeholder="Enter name here">
       </label>
       <label class="item item-input">
         <span class="input-label">Password</span>
-        <input type="text" ng-model="user.password" placeholder="       Enter Password here">
+        <input type="password" ng-model="user.password" placeholder="Enter Password here">
       </label>
       <label class="item item-input">
         <span class="input-label">Identity Card Number</span>
-        <input type="number" ng-model="user.icard" placeholder=" Enter Card Number">
+        <input type="number" ng-model="user.icard" placeholder="Enter Card Number">
       </label>
       <label class="item item-input">
         <span class="input-label">Date of Birth</span>
         <span style="margin-left: 25px;">
-          <input type="date" class="pull-right" ng-model="user.dob" placeholder="           Enter Date of Birth">  
+          <input type="date" class="pull-right" ng-model="user.dob" placeholder="Enter Date of Birth">
         </span>
-        
+
       </label>
       <label class="item item-input item-select" >
         <div class="input-label">
@@ -51,11 +51,11 @@
       </label>
       <label class="item item-input">
         <span class="input-label">Home Phone</span>
-        <input type="number" ng-model="user.phone" placeholder="      Enter Phone Number">
+        <input type="number" ng-model="user.phone" placeholder="Enter Phone Number">
       </label>
       <label class="item item-input">
         <span class="input-label">Home Mobile</span>
-        <input type="number" ng-model="user.mobile" placeholder=" Enter Mobile Number">
+        <input type="number" ng-model="user.mobile" placeholder="Enter Mobile Number">
       </label>
       <label class="item item-input">
         <span class="input-label">Fax</span>
@@ -63,10 +63,9 @@
       </label>
       <label class="item item-input">
         <span class="input-label">E-mail</span>
-          <input type="email" placeholder="      Enter e-mail here" ng-model="user.email">
+          <input type="email" placeholder="Enter e-mail here" ng-model="user.email">
       </label>
       <button class="button button-balanced button-block" ng-click="register()">Register</button>
     </div>
   </ion-content>
 </ion-view>
-
