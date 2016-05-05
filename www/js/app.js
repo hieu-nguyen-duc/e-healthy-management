@@ -47,65 +47,65 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   .state('hospital', {
       url: '/hospital',
           templateUrl: 'templates/hospital.html',
-          controller: 'HospitalCtrl'    
+          controller: 'HospitalCtrl'
     })
 
   .state('approval', {
       url: '/hospital',
           templateUrl: 'templates/approval.html',
-          controller: 'ApprovalCtrl'    
+          controller: 'ApprovalCtrl'
     })
 
   .state('patients', {
       url: '/hospital',
           templateUrl: 'templates/patients.html',
-          controller: 'PatientsCtrl'    
+          controller: 'PatientsCtrl'
     })
 
   .state('profile', {
       url: '/hospital',
           templateUrl: 'templates/profile.html',
-          controller: 'ProfileCtrl'    
-    }) 
+          controller: 'ProfileCtrl'
+    })
 
   .state('details', {
       url: '/details/:name',
           templateUrl: 'templates/details.html',
-          controller: 'DetailsCtrl'    
+          controller: 'DetailsCtrl'
     })
-  
+
   .state('record', {
       url: '/Record/:name',
           templateUrl: 'templates/record.html',
-          controller: 'RecordCtrl'    
+          controller: 'RecordCtrl'
     })
 
   .state('edit', {
       url: '/Edit',
           templateUrl: 'templates/edit.html',
-          controller: 'EditCtrl'    
+          controller: 'EditCtrl'
     })
 
   .state('changePassword', {
-      url: '/hospital',
+      url: '/changepassword',
           templateUrl: 'templates/changePassword.html',
-          controller: 'PasswordCtrl'    
+          controller: 'MainCtrl'
     })
   .state('cancelAccount', {
       url: '/hospital',
           templateUrl: 'templates/cancelAccount.html',
-          controller: 'CancelAccountCtrl'    
+          controller: 'CancelAccountCtrl'
     })
   .state('contactInfo', {
       url: '/hospital',
           templateUrl: 'templates/contactInfo.html',
-          controller: 'ContactCtrl'    
+          controller: 'ContactCtrl'
     })
   .state('location', {
       url: '/hospital',
           templateUrl: 'templates/location.html',
-          controller: 'LocationCtrl'    
-    }) 
+          controller: 'LocationCtrl'
+    })
 
   .state('menu', {
       url: '/menu',
