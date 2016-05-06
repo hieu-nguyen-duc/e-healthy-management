@@ -19,6 +19,7 @@
       <div>
       <center>
         <img class="profile-round" ng-src="{{user.UserImage}}" height="90" ng-click="openCamera()">
+
       </center>
          </div>
       <label class="item item-input">
@@ -44,9 +45,9 @@
         <div class="input-label">
         Gender
         </div>
-        <select ng-model="user.gender">
-          <option value=""> Male </option>
-          <option value=""> Female </option>
+        <select ng-model="user.gender" ng-option="1">
+          <option value="1"> Male </option>
+          <option value="0"> Female </option>
         </select>
       </label>
       <label class="item item-input">

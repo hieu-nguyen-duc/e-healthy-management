@@ -7,7 +7,7 @@ angular.module('starter.controllers', ['firebase'])
     $scope.option=1;
     $scope.loginData={};
     var refurl ="https://diagnosediabetes.firebaseio.com/";
-var ref = new Firebase(refurl);
+    var ref = new Firebase(refurl);
     $scope.loginOption=function(value)
     {
       if (value==1)
@@ -23,6 +23,8 @@ var ref = new Firebase(refurl);
         $scope.signUp=true;
       }
     }
+
+
     $scope.signIn=function()
     {
 
@@ -32,21 +34,21 @@ var ref = new Firebase(refurl);
         Utility.showToastMessage('Enter login details');
         return;
       }
-ref.authWithPassword({
-  email    : $scope.loginData.email,
-  password : $scope.loginData.password+""
-}, function(error, authData) {
-  if (error) {
-    console.log("Login Failed!", error);
-    Utility.showToastMessage('Invalid Credentials');
-  } else {
-    console.log("Authenticated successfully with payload:", authData);
-    $state.go("menu");
-    $ionicHistory.nextViewOptions({
-      disableBack: true
-    });
-  }
-});
+      ref.authWithPassword({
+        email    : $scope.loginData.email,
+        password : $scope.loginData.password+""
+      }, function(error, authData) {
+        if (error) {
+          console.log("Login Failed!", error);
+          Utility.showToastMessage('Invalid Credentials');
+        } else {
+          console.log("Authenticated successfully with payload:", authData);
+          $state.go("menu");
+          $ionicHistory.nextViewOptions({
+            disableBack: true
+          });
+        }
+      });
 
     }
     $scope.changePassword=function()
@@ -54,33 +56,44 @@ ref.authWithPassword({
 
       debugger;
       var authData = ref.getAuth();
-if (authData) {
-  console.log("Authenticated user with uid:", authData.uid);
-}
-else{
-  $state.go("app");
-}
+      if (authData) {
+        console.log("Authenticated user with uid:", authData.uid);
+      }
+      else{
+        $state.go("app");
+      }
       if($scope.user.password==null && $scope.user.password_confirmation==null)
       {
         Utility.showToastMessage('Enter login details');
         return;
       }
       ref.changePassword({
-    email       : authData.password.email,
-    oldPassword : $scope.user.password+"",
-    newPassword : $scope.user.password_confirmation+""
-  }, function(error) {
-    if (error === null) {
-      console.log("Password changed successfully");
-      $ionicPopup.alert({
-          title: "successfully",
-          template: "Password changed successfully",
+        email       : authData.password.email,
+        oldPassword : $scope.user.password_confirmation+"",
+        newPassword : $scope.user.password+"",
+      }, function(error) {
+        if (error === null) {
+          console.log("Password changed successfully");
+          $ionicPopup.alert({
+              title: "successfully",
+              template: "Password changed successfully",
+          });
+          $state.go("app");
+        } else {
+          console.log("Error changing password:", error);
+          switch (error.code) {
+            case "INVALID_PASSWORD":
+              console.log("The specified user account password is incorrect.");
+              $ionicPopup.alert({
+                  title: "Error",
+                  template: "The specified user account password is incorrect.",
+              });
+              break;
+            default:
+              console.log("Error removing user:", error);
+            }
+        }
       });
-      $state.go("app");
-    } else {
-      console.log("Error changing password:", error);
-    }
-  });
 
     }
     $scope.openCamera=function(){
@@ -90,13 +103,11 @@ else{
     $scope.user={};
     $scope.user.UserImage="img/UserImage.png";
 
-       $scope.$on('image:captured', function(e, imageData){
-        $timeout(function(){
-           $scope.user.UserImage = imageData;
-         },10);
-
-
-          });
+    $scope.$on('image:captured', function(e, imageData){
+      $timeout(function(){
+         $scope.user.UserImage = imageData;
+       },10);
+    });
 
           var validateuser = function() {
 
@@ -152,31 +163,54 @@ else{
           }
     $scope.register = function(){
       debugger;
-      /*var isvalid = validateuser();
+      var isvalid = validateuser();
       if (isvalid == false)
-          return;*/
-          ref.createUser({
-  email    : $scope.user.email,
-  password : $scope.user.password
-}, function(error, userData) {
-  if (error) {
-    console.log("Error creating user:", error);
-  } else {
-    console.log("Successfully created user account with uid:", userData.uid);
+          return;
+      ref.createUser({
+        email    : $scope.user.email,
+        password : $scope.user.password
+      }, function(error, userData) {
+        if (error) {
+          console.log("Error creating user:", error);
+          $ionicPopup.alert({
+              title: "Error",
+              template: error
+          });
+        } else {
+          console.log("Successfully created user account with uid:", userData.uid);
 
-    var usersRef = new Firebase(refurl+"users/");
-    var uidRef = new Firebase(refurl+"users/"+userData.uid+"/");
-    uidRef.set({
-        userid:userData.uid,
-        username: $scope.user.name,
-        email: $scope.user.email
-    });
-  }
-});
+          var usersRef = new Firebase(refurl+"users/");
+          var uidRef = new Firebase(refurl+"users/"+userData.uid+"/");
+          uidRef.set({
+              userid:userData.uid,
+              username: $scope.user.name,
+              email: $scope.user.email,
+              card:$scope.user.icard,
+              birthday: $scope.user.dob,
+              gender: $scope.user.gender,
+              phone:$scope.user.phone,
+              mobile:$scope.user.mobile,
+              fax:$scope.user.fax,
+              image: $scope.user.UserImage,
+              appartment:"",
+              street:"",
+              city:"",
+              country:""
+          });
+        }
+      });
     }
 })
 .controller('menuCtrl', function($scope,$state,$ionicHistory)
 {
+  var refRoot = new Firebase("https://diagnosediabetes.firebaseio.com/");
+  var authData = refRoot.getAuth();
+  if (authData) {
+    console.log("Authenticated user with uid:", authData.uid);
+  }
+  else{
+    $state.go("app");
+  }
   $scope.diagnose=function()
   {
     $state.go('diagnoseme');
@@ -195,6 +229,8 @@ else{
   }
   $scope.logout=function()
   {
+    var ref = new Firebase("https://diagnosediabetes.firebaseio.com/patientresult");
+    ref.unauth();
     $state.go('app');
     $ionicHistory.nextViewOptions({
       disableBack: true
@@ -230,7 +266,7 @@ else{
 
     $scope.submit = function (parameter1,parameter2,parameter3,parameter4,parameter5) {
         var res = {
-            parameter1: parameter1,
+            parameter1: ContactCtrl,
             parameter2: parameter2,
             parameter3: parameter3,
             parameter4: parameter4,
@@ -391,14 +427,63 @@ else{
 
 })
 
-.controller('ContactCtrl', function($scope,$timeout,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService)
+.controller('ContactCtrl', function($scope,$timeout,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService,$firebaseObject)
 {
+  debugger;
+  var refurl ="https://diagnosediabetes.firebaseio.com/";
+var ref = new Firebase(refurl);
+  var authData = ref.getAuth();
+  if (authData) {
+    console.log("Authenticated user with uid:", authData.uid);
+  }
+  else{
+    $state.go("app");
+  }
+
+  var refuid = new Firebase(refurl+"/users/"+authData.uid);
+  var obj = $firebaseObject(refuid);
+  $scope.user = obj;
+  $scope.change=function(){
+    debugger;
+    obj.phone = $scope.user.phone;
+    obj.mobile = $scope.user.mobile;
+    obj.fax =  $scope.user.fax;
+    obj.$save().then(function(refuid) {
+      refuid.key() === obj.$id; // true
+    }, function(error) {
+      console.log("Error:", error);
+    });
+  };
 
 })
 
-.controller('LocationCtrl', function($scope,$timeout,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService)
+.controller('LocationCtrl', function($scope,$timeout,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService,$firebaseObject)
 {
+  var refurl ="https://diagnosediabetes.firebaseio.com/";
+  var ref = new Firebase(refurl);
+  var authData = ref.getAuth();
+  if (authData) {
+    console.log("Authenticated user with uid:", authData.uid);
+  }
+  else{
+    $state.go("app");
+  }
 
+  var refuid = new Firebase(refurl+"/users/"+authData.uid);
+  var obj = $firebaseObject(refuid);
+  $scope.user = obj;
+  $scope.change=function(){
+    debugger;
+    obj.appartment = $scope.user.appartment;
+    obj.street = $scope.user.street;
+    obj.city =  $scope.user.city;
+    obj.country =  $scope.user.country;
+    obj.$save().then(function(refuid) {
+      refuid.key() === obj.$id; // true
+    }, function(error) {
+      console.log("Error:", error);
+    });
+  };
 })
 
 .controller('myRecordCtrl', function($scope,$state)
