@@ -27,8 +27,6 @@ angular.module('starter.controllers', ['firebase'])
 
     $scope.signIn=function()
     {
-
-      debugger;
       if($scope.loginData.email==null && $scope.loginData.password==null)
       {
         Utility.showToastMessage('Enter login details');
@@ -197,6 +195,10 @@ angular.module('starter.controllers', ['firebase'])
               city:"",
               country:""
           });
+          $ionicPopup.alert({
+              title: "Successfully",
+              template: "Register user success"
+          });
         }
       });
     }
@@ -239,18 +241,26 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 .controller('diagnosemeCtrl', function($scope,$state,$firebaseArray,Utility) {
-        var database = new Firebase("https://diagnosediabetes.firebaseio.com/patientresult");
+        var refurl ="https://diagnosediabetes.firebaseio.com/";
+        var ref = new Firebase(refurl);
+        var authData = ref.getAuth();
+        if (authData) {
+          console.log("Authenticated user with uid:", authData.uid);
+        }
+        else{
+          $state.go("app");
+        }
+
+        var database = new Firebase(refurl + "patientresult");
         $scope.patientparameter = $firebaseArray(database);
 
+        $scope.submit = function (parameter1) {
 
-        $scope.submit = function (parameter1,parameter2,parameter3,parameter4,parameter5) {
             var res = {
+                userid: authData.uid,
                 parameter1: parameter1,
-                parameter2: parameter2,
-                parameter3: parameter3,
-                parameter4: parameter4,
-                parameter5: parameter5
-
+                createdate:  Firebase.ServerValue.TIMESTAMP,
+                approved: false
             };
             $scope.patientparameter.$add(res);
             $scope.report = true;
@@ -292,6 +302,23 @@ angular.module('starter.controllers', ['firebase'])
  })
 .controller('doctoReplyCtrl', function($scope,$state)
   {
+    var refurl ="https://diagnosediabetes.firebaseio.com/";
+    var ref = new Firebase(refurl);
+    var authData = ref.getAuth();
+    if (authData) {
+      console.log("Authenticated user with uid:", authData.uid);
+    }
+    else{
+      $state.go("app");
+    }
+
+    ref.child('patientresult')
+    .orderByChild('userid')
+    .equalTo(authData.uid)
+    .once('value', function(patientSnap) {
+       $scope.patients = patientSnap.val();
+       console.log($scope.patients);
+    });
     $scope.submiting=function(){
       $state.go('doctoReport');
     }
@@ -431,7 +458,7 @@ angular.module('starter.controllers', ['firebase'])
 {
   debugger;
   var refurl ="https://diagnosediabetes.firebaseio.com/";
-var ref = new Firebase(refurl);
+  var ref = new Firebase(refurl);
   var authData = ref.getAuth();
   if (authData) {
     console.log("Authenticated user with uid:", authData.uid);
@@ -486,9 +513,63 @@ var ref = new Firebase(refurl);
   };
 })
 
-.controller('myRecordCtrl', function($scope,$state)
+.controller('myRecordCtrl', function($scope,$state,$firebaseObject)
   {
+    var refurl ="https://diagnosediabetes.firebaseio.com/";
+    var ref = new Firebase(refurl);
+    var authData = ref.getAuth();
+    if (authData) {
+      console.log("Authenticated user with uid:", authData.uid);
+    }
+    else{
+      $state.go("app");
+    }
 
+    ref.child('patientresult')
+    .orderByChild('userid')
+    .equalTo(authData.uid)
+    .once('value', function(patientSnap) {
+       /*ref.child('users/'+authData.uid).once('value', function(userSnap) {
+           // extend function: https://gist.github.com/katowulf/6598238
+           $scope.data = extend({}, patientSnap.val(), userSnap.val());
+           console.log($scope.data);
+       });*/
+       $scope.patients = patientSnap.val();
+       console.log($scope.patients);
+       /*patientSnap.forEach(function(childSnapshot) {
+   // key will be "fred" the first time and "barney" the second time
+   var key = childSnapshot.key();
+   console.log(key);
+   // childData will be the actual contents of the child
+   var childData = childSnapshot.val();
+   console.log(childData);
+ });*/
+    });
+    var refuid = new Firebase(refurl+"/users/"+authData.uid);
+    var obj = $firebaseObject(refuid);
+    $scope.user = obj;
+    /*new Firebase(refurl+"users")
+    .orderByChild('username')
+    .equalTo('ngoctruy87')
+    .once('value', show);*/
+
+function show(snap) {
+   console.log(JSON.stringify(snap.val(), null, 2));
+}
+
+    function extend(base) {
+        var parts = Array.prototype.slice.call(arguments, 1);
+        parts.forEach(function (p) {
+            if (p && typeof (p) === 'object') {
+                for (var k in p) {
+                    if (p.hasOwnProperty(k)) {
+                        base[k] = p[k];
+                    }
+                }
+            }
+        });
+        return base;
+    }
  })
 .controller('doctoReportCtrl', function($scope,$state)
   {

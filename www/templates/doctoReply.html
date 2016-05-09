@@ -1,37 +1,15 @@
 <ion-view view-title="Doctor Reply">
   <ion-content>
-    
+
     <ion-list>
-     <ion-item class="item item-icon-right" ng-click="submiting()">
+     <ion-item class="item item-icon-right" ng-click="submiting()" ng-repeat="patient in patients" ng-if="patient.approved == true">
          <p>
           Doctor Reply<br>
-          Date:November 05, 1955</p> 
+          Date:{{patient.createdate| date:'MMMM dd, yyyy'}}</p>
          <i class="icon ion-ios-arrow-right"></i>
        </ion-item >
-        <ion-item class="item item-icon-right" ng-click="submit()">
-         <p>Doctor Reply<br>
-          Date:November 05, 1955</p>
-         <i class="icon ion-ios-arrow-right"></i>
-       </ion-item>
-       <ion-item class="item item-icon-right" ng-click="submit()">
-         <p>
-          Doctor Reply<br>
-          Date:November 05, 1955</p> 
-         <i class="icon ion-ios-arrow-right"></i>
-       </ion-item>
-      <ion-item class="item item-icon-right" ng-click="submit()">
-         <p>
-          Doctor Reply<br>
-          Date:November 05, 1955</p> 
-         <i class="icon ion-ios-arrow-right"></i>
-       </ion-item>
-       <ion-item class="item item-icon-right" ng-click="submit()">
-         <p>
-          Doctor Reply<br>
-          Date:November 05, 1955</p> 
-         <i class="icon ion-ios-arrow-right"></i>
-       </ion-item>
+
      </ion-list>
-   
+
   </ion-content>
 </ion-view>
