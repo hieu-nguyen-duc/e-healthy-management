@@ -140,6 +140,14 @@ angular.module('starter.controllers', ['firebase'])
                   });
                   return false;
               }
+              if (!$scope.user.phone) {
+                  $ionicPopup.alert({
+                      title: "Warning",
+                      template: "Please enter Phone Number",
+
+                  });
+                  return false;
+              }
               if (!$scope.user.mobile) {
                   $ionicPopup.alert({
                       title: "Warning",
@@ -159,6 +167,7 @@ angular.module('starter.controllers', ['firebase'])
 
               return true;
           }
+          $scope.user.fax = "";
     $scope.register = function(){
       debugger;
       var isvalid = validateuser();
@@ -179,6 +188,7 @@ angular.module('starter.controllers', ['firebase'])
 
           var usersRef = new Firebase(refurl+"users/");
           var uidRef = new Firebase(refurl+"users/"+userData.uid+"/");
+
           uidRef.set({
               userid:userData.uid,
               username: $scope.user.name,
@@ -193,7 +203,8 @@ angular.module('starter.controllers', ['firebase'])
               appartment:"",
               street:"",
               city:"",
-              country:""
+              country:"",
+              type:1,
           });
           $ionicPopup.alert({
               title: "Successfully",
