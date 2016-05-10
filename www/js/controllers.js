@@ -62,7 +62,6 @@ angular.module('starter.controllers', ['firebase'])
     $scope.changePassword=function()
     {
 
-      debugger;
       var authData = ref.getAuth();
       if (authData) {
         console.log("Authenticated user with uid:", authData.uid);
@@ -179,7 +178,6 @@ angular.module('starter.controllers', ['firebase'])
           }
           $scope.user.fax = "";
     $scope.register = function(){
-      debugger;
       var isvalid = validateuser();
       if (isvalid == false)
           return;
@@ -410,15 +408,42 @@ angular.module('starter.controllers', ['firebase'])
 {
   $scope.filter = {};
   $scope.filter.patientName = "";
-
-  $scope.$on('$ionicView.beforeEnter', function()
+  $scope.patients =[];
+  /*$scope.$on('$ionicView.beforeEnter', function()
   {
     $scope.patients = MainService.getPatients();
+  });*/
+  var refurl ="https://diagnosediabetes.firebaseio.com/";
+  var ref = new Firebase(refurl);
+
+  ref.child('patientresult')
+  .orderByChild('approved')
+  .equalTo(false)
+  .once('value', function(patientSnap) {
+     //$scope.patients = patientSnap.val();
+     patientSnap.forEach(function(childSnapshot) {
+       var key = childSnapshot.key();
+       var childData = childSnapshot.val();
+       var refuser = new Firebase(refurl+"/users/"+childData.userid);
+       refuser.once('value',function(userSnap)
+       {
+          var userData = userSnap.val();
+          var obj = {image: userData.image,name: userData.username};
+          var addToArray=true;
+          for(var i=0;i<$scope.patients.length;i++){
+              if($scope.patients[i].name===obj.name){
+                  addToArray=false;
+              }
+          }
+          if(addToArray){
+              $scope.patients.push(obj);
+          }
+       });
+     });
   });
   $scope.details=function(name)
   {
     $state.go('details',{'name':name});
-
   };
 
 })
@@ -465,12 +490,31 @@ angular.module('starter.controllers', ['firebase'])
 
 .controller('PatientsCtrl', function($scope,$timeout,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService)
 {
+  debugger;
   $scope.filter = {};
   $scope.filter.patientName = "";
+  $scope.patients = [];
 
-  $scope.$on('$ionicView.beforeEnter', function()
+  /*$scope.$on('$ionicView.beforeEnter', function()
   {
     $scope.patients = MainService.getPatients();
+  });*/
+  var refurl ="https://diagnosediabetes.firebaseio.com/";
+  var ref = new Firebase(refurl);
+
+  ref.child('users')
+  .orderByChild('type')
+  .equalTo(1)
+  .once('value', function(patientSnap) {
+     //$scope.patients = patientSnap.val();
+     patientSnap.forEach(function(childSnapshot) {
+       var key = childSnapshot.key();
+       var childData = childSnapshot.val();
+
+          var obj = {image: childData.image,username: childData.username};
+          $scope.patients.push(obj);
+
+     });
   });
 })
 
@@ -486,7 +530,6 @@ angular.module('starter.controllers', ['firebase'])
 
 .controller('ContactCtrl', function($scope,$timeout,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService,$firebaseObject)
 {
-  debugger;
   var refurl ="https://diagnosediabetes.firebaseio.com/";
   var ref = new Firebase(refurl);
   var authData = ref.getAuth();
@@ -501,7 +544,6 @@ angular.module('starter.controllers', ['firebase'])
   var obj = $firebaseObject(refuid);
   $scope.user = obj;
   $scope.change=function(){
-    debugger;
     obj.phone = $scope.user.phone;
     obj.mobile = $scope.user.mobile;
     obj.fax =  $scope.user.fax;
@@ -530,7 +572,6 @@ angular.module('starter.controllers', ['firebase'])
   var obj = $firebaseObject(refuid);
   $scope.user = obj;
   $scope.change=function(){
-    debugger;
     obj.appartment = $scope.user.appartment;
     obj.street = $scope.user.street;
     obj.city =  $scope.user.city;

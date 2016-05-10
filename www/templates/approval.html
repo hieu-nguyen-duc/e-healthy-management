@@ -2,7 +2,7 @@
   <ion-content>
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="patient in patients | filter: {name: filter.patientName}" type="item-text-wrap" ng-click="details(patient.name)">
-        <img ng-src="{{patient.face}}">
+        <img ng-src="{{patient.image}}">
         <h2>{{patient.name}}</h2>
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
