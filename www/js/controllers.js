@@ -330,9 +330,9 @@ angular.module('starter.controllers', ['firebase'])
        $scope.patients = patientSnap.val();
        console.log($scope.patients);
     });
-    $scope.submiting=function(){
-      $state.go('doctoReport');
-    }
+    //$scope.submiting=function(){
+      //$state.go('doctoReport');
+    //}
   })
 
 .controller('HospitalCtrl', function($scope,$timeout,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService)
@@ -582,9 +582,16 @@ function show(snap) {
         return base;
     }
  })
-.controller('doctoReportCtrl', function($scope,$state)
+.controller('doctoReportCtrl', function($scope,$state,$stateParams, $firebaseObject)
   {
-
+    $scope.id = $stateParams.id;
+    var refurl ="https://diagnosediabetes.firebaseio.com/";
+    var ref = new Firebase(refurl+"/patientresult/"+$scope.id);
+    $scope.patient = $firebaseObject(ref);
+    console.log($scope.patient);
+    var refuser = new Firebase(refurl+"/users/"+$scope.patient.userid)
+    $scope.user = $firebaseObject(refuser);
+    console.log($scope.user);
  })
 .controller('changeCtrl', function($scope,$state)
   {

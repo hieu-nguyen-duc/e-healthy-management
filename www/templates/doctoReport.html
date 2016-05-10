@@ -8,30 +8,31 @@
       <p>November 05, 1955</p>
     </div>
   <div class="item item-avatar">
-    
+
       <h2>YOUR RESULT IS : FINE</h2>
     </div>
       <div class="item item-body">
-   
+
         <p>
           MASSEGE FROM DOCTOR<br>
           ...........................................................................................................................<br>
           .....................................................................................................................<br>
           .............................................................................<br>
         </p>
-    
+
       </div>
     </div> -->
-    <img src="img/mike.png" height="30%" width="50%">
-      <h4>Hi Marty</h4>
-      <p>November 05, 1955</p>
-      <h5>YOUR RESULT IS : FINE</h5>
+    <img src="{{user.avatar}}" height="30%" width="50%">
+      <h4>Hi {{user.username}}</h4>
+      <p>{{patient.createdate | date:'MMMM dd, yyyy'}}</p>
+      <h5>YOUR RESULT IS : {{patient.result}}</h5>
     <div class="card">
   <div class="item item-divider">
-    MASSEGE FROM DOCTOR 
+    MASSEGE FROM DOCTOR
   </div>
   <div class="item item-text-wrap">
-    hi marty you are fine but you need to do some exercise to keep your body fit and fine. 
+    {{patient.message}}
   </div>
+</div>
   </ion-content>
 </ion-view>

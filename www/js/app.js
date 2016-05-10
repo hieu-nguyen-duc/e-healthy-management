@@ -137,7 +137,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       controller: 'doctoReplyCtrl'
     })
   .state('doctoReport', {
-      url: '/doctoReport',
+      url: '/doctoReport/:id',
       templateUrl: 'templates/doctoReport.html',
       controller: 'doctoReportCtrl'
     });

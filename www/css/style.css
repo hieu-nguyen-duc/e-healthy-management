@@ -5,14 +5,14 @@
    color: black;
    text-transform: capitalize;
    font-weight: bold;
-   
+
 }
 .rel {
    position: relative;
-   
+
 
 }
-img { 
+img {
   -webkit-filter: brightness(60%);
     filter: brightness(60%);
 }
@@ -24,4 +24,7 @@ img:hover{
   height:150px;
   width: 150px;
   border-radius:50%;
+}
+a{
+  text-decoration: none;
 }
