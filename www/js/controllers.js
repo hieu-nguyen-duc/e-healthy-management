@@ -41,7 +41,17 @@ angular.module('starter.controllers', ['firebase'])
           Utility.showToastMessage('Invalid Credentials');
         } else {
           console.log("Authenticated successfully with payload:", authData);
-          $state.go("menu");
+          var refuser = new Firebase(refurl+"/users/"+authData.uid)
+          .once('value', function(snap) {
+             if(snap.val().type==1)
+             {
+                $state.go("menu");
+             }
+             else{
+               $state.go("hospital");
+             }
+          });
+
           $ionicHistory.nextViewOptions({
             disableBack: true
           });
@@ -206,9 +216,18 @@ angular.module('starter.controllers', ['firebase'])
               country:"",
               type:1,
           });
-          $ionicPopup.alert({
+          /*$ionicPopup.alert({
               title: "Successfully",
               template: "Register user success"
+          });*/
+          ref.authWithPassword({
+            email    : $scope.user.email,
+            password : $scope.user.password
+          }, function(error, authData) {
+              $state.go("menu");
+              $ionicHistory.nextViewOptions({
+                disableBack: true
+              });
           });
         }
       });
