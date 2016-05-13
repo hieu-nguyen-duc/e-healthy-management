@@ -82,7 +82,7 @@ angular.module('starter.controllers', ['firebase'])
         if (error === null) {
           console.log("Password changed successfully");
           $ionicPopup.alert({
-              title: "successfully",
+              title: "Alert",
               template: "Password changed successfully",
           });
           $state.go("app");
@@ -268,7 +268,7 @@ angular.module('starter.controllers', ['firebase'])
   }
 })
 
-.controller('diagnosemeCtrl', function($scope,$state,$firebaseArray,Utility) {
+.controller('diagnosemeCtrl', function($scope,$state,$firebaseArray,Utility,$ionicPopup) {
         var refurl ="https://diagnosediabetes.firebaseio.com/";
         var ref = new Firebase(refurl);
         var authData = ref.getAuth();
@@ -294,6 +294,11 @@ angular.module('starter.controllers', ['firebase'])
             };
             $scope.patientparameter.$add(res);
             $scope.report = true;
+            $ionicPopup.alert({
+              title:'Alert',
+              template:'Your question sent success'
+            });
+            $state.go('myRecord');
 
         };
     })
@@ -496,7 +501,7 @@ angular.module('starter.controllers', ['firebase'])
         obj.$save().then(function(refpatient) {
           refpatient.key() === obj.$id; // true
           $ionicPopup.alert({
-              title: "successfully",
+              title: "Alert",
               template: "Approved successfully",
           });
           $state.go('details',{'id':$scope.uid});
@@ -548,7 +553,7 @@ angular.module('starter.controllers', ['firebase'])
       obj.$save().then(function(refpatient) {
         refpatient.key() === obj.$id; // true
         $ionicPopup.alert({
-            title: "successfully",
+            title: "Alert",
             template: "Send message successfully",
         });
         $state.go('details',{'id':$scope.uid});
