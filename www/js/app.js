@@ -68,19 +68,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     })
 
   .state('details', {
-      url: '/details/:name',
+      url: '/details/:id',
           templateUrl: 'templates/details.html',
           controller: 'DetailsCtrl'
     })
 
   .state('record', {
-      url: '/Record/:name',
+      url: '/Record/:id',
           templateUrl: 'templates/record.html',
           controller: 'RecordCtrl'
     })
 
   .state('edit', {
-      url: '/Edit',
+      url: '/edit/:id',
           templateUrl: 'templates/edit.html',
           controller: 'EditCtrl'
     })

@@ -4,45 +4,24 @@
   </ion-header-bar> -->
   <ion-content has-header="true" class="padding">
     <div class="padding text-center padding" style="margin-top: 20px">
-      <button class="button button-positive" ng-click="record()">
-        {{patientName}}'s Record
+      <button class="button button-positive">
+        {{user.username}}'s Record
       </button>
     </div>
     <div style="margin-top: 20px" >
-        <ion-item class="item"  ng-repeat="patient in patientparameter" >
+        <ion-item class="item" ng-repeat="(key,patient) in patients" ng-if="patient.approved == 0">
+        <a href="#/Record/{{key}}">
         <label class="item item-input" >
             <span class="input-label">parameter1</span>
             <span class="item-note" >
             {{patient.parameter1}}
           </span>
         </label>
-        <label class="item item-input">
-            <span class="input-label">parameter2</span>
-            <span class="item-note" >
-            {{patient.parameter2}}
-          </span>
-        </label>
-        <label class="item item-input">
-            <span class="input-label">parameter3</span>
-            <span class="item-note" >
-            {{patient.parameter3}}
-          </span>
-        </label>
-        <label class="item item-input">
-            <span class="input-label">parameter4</span>
-            <span class="item-note" >
-            {{patient.parameter4}}
-          </span>
-        </label>
-        <label class="item item-input">
-            <span class="input-label">parameter5</span>
-            <span class="item-note" >
-                {{patient.parameter5}}
-          </span>
-        </label>
+      </a>
         </ion-item>
 
     </div>
+    <!-- move to record
     <div class="list card " style="margin-top: 30px">
       <ion-item class="item item-divider">
         System reply:
@@ -54,6 +33,6 @@
     <div class="button-bar ">
       <a class="button button-positive" >Approve</a>
       <a class="button button-balanced" ui-sref="edit">Not Approve</a>
-    </div>    
-
+    </div>
+-->
 </ion-view>

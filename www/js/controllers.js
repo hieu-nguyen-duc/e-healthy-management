@@ -288,7 +288,9 @@ angular.module('starter.controllers', ['firebase'])
                 userid: authData.uid,
                 parameter1: parameter1,
                 createdate:  Firebase.ServerValue.TIMESTAMP,
-                approved: false
+                approved: 0,
+                message:'',
+                result:''
             };
             $scope.patientparameter.$add(res);
             $scope.report = true;
@@ -418,7 +420,7 @@ angular.module('starter.controllers', ['firebase'])
 
   ref.child('patientresult')
   .orderByChild('approved')
-  .equalTo(false)
+  .equalTo(0)
   .once('value', function(patientSnap) {
      //$scope.patients = patientSnap.val();
      patientSnap.forEach(function(childSnapshot) {
@@ -428,7 +430,7 @@ angular.module('starter.controllers', ['firebase'])
        refuser.once('value',function(userSnap)
        {
           var userData = userSnap.val();
-          var obj = {image: userData.image,name: userData.username};
+          var obj = {image: userData.image,name: userData.username,userid:userData.userid};
           var addToArray=true;
           for(var i=0;i<$scope.patients.length;i++){
               if($scope.patients[i].name===obj.name){
@@ -441,51 +443,119 @@ angular.module('starter.controllers', ['firebase'])
        });
      });
   });
-  $scope.details=function(name)
+  $scope.details=function(uid)
   {
-    $state.go('details',{'name':name});
+    $state.go('details',{'id':uid});
   };
 
 })
 
-.controller('DetailsCtrl', function($scope,$firebaseArray,$stateParams,$timeout,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService)
+.controller('DetailsCtrl', function($scope,$firebaseObject,$stateParams,$timeout,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService)
 {
 
 
-    $scope.patientName = $stateParams.name;
+    $scope.userid = $stateParams.id;
     $scope.$on('$ionicView.beforeEnter', function()
     {
-
-          //$scope.results = MainService.getResults();
-        var database=new Firebase("https://diagnosediabetes.firebaseio.com/patientresult");
-        $scope.patientparameter=$firebaseArray(database);
-
+        var refurl ="https://diagnosediabetes.firebaseio.com/";
+        var ref = new Firebase(refurl);
+        ref.child('patientresult')
+        .orderByChild('userid')
+        .equalTo($scope.userid)
+        .once('value', function(patientSnap) {
+           $scope.patients = patientSnap.val();
+           console.log($scope.patients);
+        });
+        var refuid = new Firebase(refurl+"/users/"+$scope.userid);
+        $scope.user = $firebaseObject(refuid);
     });
-    $scope.record=function()
-      {
-         $state.go('record',{'name':$scope.patientName});
-        };
 
 
 })
 
-.controller('RecordCtrl', function($scope,$firebaseArray,$stateParams,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService)
+.controller('RecordCtrl', function($scope,$firebaseObject,$stateParams,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService)
 {
   //$scope.patientName;
-  $scope.patientName = $stateParams.name;
+  $scope.id = $stateParams.id;
   $scope.$on('$ionicView.beforeEnter', function()
   {
-
-   // $scope.results = MainService.getResults();
-      var database=new Firebase("https://diagnosediabetes.firebaseio.com/presult");
-      $scope.pparameter=$firebaseArray(database);
+    var refurl ="https://diagnosediabetes.firebaseio.com/";
+    var refpatient = new Firebase(refurl+"/patientresult/"+$scope.id);
+    var obj = $firebaseObject(refpatient);
+    $scope.patient = obj;
+    refpatient.once("value", function(snapshot) {
+    $scope.patientid = snapshot.name();
+    $scope.uid=snapshot.val().userid;
+    //console.log($scope.patient)
+    var refuser = new Firebase(refurl+"/users/"+$scope.uid)
+    $scope.user = $firebaseObject(refuser);
   });
+    $scope.approved=function()
+    {
+        obj.approved = 1;
+        obj.$save().then(function(refpatient) {
+          refpatient.key() === obj.$id; // true
+          $ionicPopup.alert({
+              title: "successfully",
+              template: "Approved successfully",
+          });
+          $state.go('details',{'id':$scope.uid});
+        }, function(error) {
+          console.log("Error:", error);
+        });
+    }
+  });
+
 })
 
-.controller('EditCtrl', function($scope,$stateParams,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService)
+.controller('EditCtrl', function($scope,$stateParams,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService,$firebaseObject,$ionicPopup)
 {
-  $scope.values=[{text:'Excelent',value:1},{text:'Good',value:1},{text:'Fair',value:1},{text:'Bad',value:1},{text:'Critical',value:1}];
+  //$scope.values=[{text:'Excelent',value:'Excelent'},{text:'Good',value:'Good'},{text:'Fair',value:'Fair'},{text:'Bad',value:'Bad'},{text:'Critical',value:'Critical'}];
+  $scope.id = $stateParams.id;
+  $scope.user = {};
+  var refurl ="https://diagnosediabetes.firebaseio.com/";
+  var refpatient = new Firebase(refurl+"/patientresult/"+$scope.id);
+  var obj = $firebaseObject(refpatient);
+  refpatient.once("value", function(snapshot) {
+  $scope.patientid = snapshot.name();
+  $scope.uid=snapshot.val().userid;
+});
+  $scope.send=function()
+  {
+      obj.approved = 2;
+      obj.message = $scope.user.message;
+      if($scope.user.choice=="1")
+      {
+        obj.result = "Excelent";
+      }
+      else if($scope.user.choice=="2")
+      {
+        obj.result = "Good";
+      }
+      else if($scope.user.choice=="3")
+      {
+        obj.result = "Fair";
+      }
+      else if($scope.user.choice=="4")
+      {
+        obj.result = "Bad";
+      }
+      else
+      {
+        obj.result = "Critical";
+      }
 
+      obj.$save().then(function(refpatient) {
+        refpatient.key() === obj.$id; // true
+        $ionicPopup.alert({
+            title: "successfully",
+            template: "Send message successfully",
+        });
+        $state.go('details',{'id':$scope.uid});
+      }, function(error) {
+        console.log("Error:", error);
+      });
+  }
 })
 
 .controller('PatientsCtrl', function($scope,$timeout,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService)
@@ -511,7 +581,7 @@ angular.module('starter.controllers', ['firebase'])
        var key = childSnapshot.key();
        var childData = childSnapshot.val();
 
-          var obj = {image: childData.image,username: childData.username};
+          var obj = {image: childData.image,username: childData.username,userid:childData.userid};
           $scope.patients.push(obj);
 
      });
@@ -646,12 +716,15 @@ function show(snap) {
   {
     $scope.id = $stateParams.id;
     var refurl ="https://diagnosediabetes.firebaseio.com/";
-    var ref = new Firebase(refurl+"/patientresult/"+$scope.id);
-    $scope.patient = $firebaseObject(ref);
-    console.log($scope.patient);
-    var refuser = new Firebase(refurl+"/users/"+$scope.patient.userid)
-    $scope.user = $firebaseObject(refuser);
-    console.log($scope.user);
+
+    var refpatient = new Firebase(refurl+"/patientresult/"+$scope.id);
+refpatient.once("value", function(snapshot) {
+  $scope.patient = snapshot.val();
+  console.log($scope.patient)
+  var refuser = new Firebase(refurl+"/users/"+snapshot.val().userid)
+  $scope.user = $firebaseObject(refuser);
+});
+
  })
 .controller('changeCtrl', function($scope,$state)
   {

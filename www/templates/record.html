@@ -1,44 +1,29 @@
-<ion-view view-title="{{patientName}}'s Record">
+<ion-view view-title="{{user.username}}'s Record">
   <ion-content class="padding">
     <div style="margin-top: 20px" >
       <ion-list >
-          <div style="margin-top: 20px" >
-              <ion-item class="item"  ng-repeat="patient in pparameter" >
-                  <label class="item item-input" >
+              <ion-item class="item">
+                <label class="item-input" >
                       <span class="input-label">parameter1</span>
-            <span class="item-note" >
-            {{patient.parameter1}}
-          </span>
-                  </label>
-                  <label class="item item-input">
-                      <span class="input-label">parameter2</span>
-            <span class="item-note" >
-            {{patient.parameter2}}
-          </span>
-                  </label>
-                  <label class="item item-input">
-                      <span class="input-label">parameter3</span>
-            <span class="item-note" >
-            {{patient.parameter3}}
-          </span>
-                  </label>
-                  <label class="item item-input">
-                      <span class="input-label">parameter4</span>
-            <span class="item-note" >
-            {{patient.parameter4}}
-          </span>
-                  </label>
-                  <label class="item item-input">
-                      <span class="input-label">parameter5</span>
-            <span class="item-note" >
-                {{patient.parameter5}}
-          </span>
-                  </label>
+                      <span class="item-note" >
+                      {{patient.parameter1}}
+                      </span>
+</label>
               </ion-item>
 
-          </div>
       </ion-list>
     </div>
-
+    <div class="list card " style="margin-top: 30px">
+      <ion-item class="item item-divider">
+        System reply:
+      </ion-item>
+      <ion-item class="item item-text-wrap">
+        Excellent.
+      </ion-item>
+    </div>
+    <div class="button-bar ">
+      <a class="button button-positive"  ng-click="approved()">Approve</a>
+      <a class="button button-balanced" href="#edit/{{patientid}}">Not Approve</a>
+    </div>
   </ion-content>
 </ion-view>
