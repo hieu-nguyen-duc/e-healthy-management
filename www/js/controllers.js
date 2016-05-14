@@ -303,19 +303,36 @@ angular.module('starter.controllers', ['firebase'])
         };
     })
 
-    .controller('presultCtrl', function($scope,$state,$firebaseArray,Utility)
+    .controller('presultCtrl', function($scope,$state,$firebaseArray,Utility,$stateParams)
 {
-    var database=new Firebase("https://diagnosediabetes.firebaseio.com/presult");
+  $scope.parameter = {};
+  var refurl ="https://diagnosediabetes.firebaseio.com/";
+  var ref = new Firebase(refurl);
+  var authData = ref.getAuth();
+  if (authData) {
+    console.log("Authenticated user with uid:", authData.uid);
+  }
+  else{
+    $state.go("app");
+  }
+
+
+      $scope.userid = $stateParams.id;
+    var database=new Firebase("https://diagnosediabetes.firebaseio.com/patientrecord");
     $scope.patientparameter=$firebaseArray(database);
 
 
-    $scope.submit = function (parameter1,parameter2,parameter3,parameter4,parameter5) {
+    $scope.submit = function () {
+
         var res = {
-            parameter1: ContactCtrl,
-            parameter2: parameter2,
-            parameter3: parameter3,
-            parameter4: parameter4,
-            parameter5: parameter5
+            parameter1: $scope.parameter.parameter1,
+            parameter2: $scope.parameter.parameter2,
+            parameter3: $scope.parameter.parameter3,
+            parameter4: $scope.parameter.parameter4,
+            parameter5: $scope.parameter.parameter5,
+            patientid: $scope.userid,
+            doctorid: authData.uid
+
 
 
     };
@@ -474,7 +491,10 @@ angular.module('starter.controllers', ['firebase'])
         var refuid = new Firebase(refurl+"/users/"+$scope.userid);
         $scope.user = $firebaseObject(refuid);
     });
-
+    $scope.record=function()
+        {
+           $state.go('presult',{'id':$scope.userid});
+          };
 
 })
 
