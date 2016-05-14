@@ -309,7 +309,7 @@ angular.module('starter.controllers', ['firebase'])
   $scope.parameter.parameter1="";
   $scope.parameter.parameter2="";
   $scope.parameter.parameter3="";
-  $scope.parameter.parameter4="";
+  $scope.parameter.parameter4="";   
   $scope.parameter.parameter5="";
   var refurl ="https://diagnosediabetes.firebaseio.com/";
   var ref = new Firebase(refurl);
