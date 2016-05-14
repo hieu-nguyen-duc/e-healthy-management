@@ -306,6 +306,11 @@ angular.module('starter.controllers', ['firebase'])
     .controller('presultCtrl', function($scope,$state,$firebaseArray,Utility,$stateParams)
 {
   $scope.parameter = {};
+  $scope.parameter.parameter1="";
+  $scope.parameter.parameter2="";
+  $scope.parameter.parameter3="";
+  $scope.parameter.parameter4="";
+  $scope.parameter.parameter5="";
   var refurl ="https://diagnosediabetes.firebaseio.com/";
   var ref = new Firebase(refurl);
   var authData = ref.getAuth();
