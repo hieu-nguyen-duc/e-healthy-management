@@ -1,7 +1,7 @@
 <ion-view view-title="Patients">
   <ion-content>
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="patient in patients | filter: {username: filter.patientName}" type="item-text-wrap" ng-click="details(patient.username)">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="patient in patients | filter: {username: filter.patientName}" type="item-text-wrap" ng-click="details(patient.userid)">
         <img ng-src="{{patient.image}}">
         <h2>{{patient.username}}</h2>
         <i class="icon ion-chevron-right icon-accessory"></i>

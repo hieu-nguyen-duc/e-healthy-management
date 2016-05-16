@@ -309,7 +309,7 @@ angular.module('starter.controllers', ['firebase'])
   $scope.parameter.parameter1="";
   $scope.parameter.parameter2="";
   $scope.parameter.parameter3="";
-  $scope.parameter.parameter4="";   
+  $scope.parameter.parameter4="";
   $scope.parameter.parameter5="";
   var refurl ="https://diagnosediabetes.firebaseio.com/";
   var ref = new Firebase(refurl);
@@ -470,10 +470,7 @@ angular.module('starter.controllers', ['firebase'])
        });
      });
   });
-  $scope.details=function(uid)
-  {
-    $state.go('details',{'id':uid});
-  };
+
 
 })
 
@@ -590,7 +587,10 @@ angular.module('starter.controllers', ['firebase'])
 
 .controller('PatientsCtrl', function($scope,$timeout,$ionicLoading,$ionicHistory,$rootScope,$state,Utility,MainService,SessionService)
 {
-  debugger;
+  $scope.details=function(uid)
+  {
+    $state.go('details',{'id':uid});
+  };
   $scope.filter = {};
   $scope.filter.patientName = "";
   $scope.patients = [];
