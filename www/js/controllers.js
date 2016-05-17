@@ -287,6 +287,7 @@ var starter=angular.module('starter.controllers', ['firebase'])
 
     $scope.submit = function (FromPatientData1,FromPatientData2,FromPatientData3,FromPatientData4,FromPatientData5) {
       //mysharedservice.prepForBroadcast();
+
       var res = {
         userid: authData.uid,
         FromPatientData1: FromPatientData1,
@@ -314,7 +315,9 @@ var starter=angular.module('starter.controllers', ['firebase'])
     };
   })
 
-  .controller('presultCtrl', function($scope,$state,$firebaseArray,Utility,$ionicPopup) {
+  .controller('presultCtrl', function($scope,$state,$firebaseArray,Utility,$ionicPopup,$stateParams,$firebaseObject) {
+    debugger;
+    $scope.patientid = $stateParams.id;
     var refurl ="https://diagnosediabetes.firebaseio.com/";
     var ref = new Firebase(refurl);
     var authData = ref.getAuth();
@@ -324,6 +327,8 @@ var starter=angular.module('starter.controllers', ['firebase'])
     else{
       $state.go("app");
     }
+    var refpatient = new Firebase(refurl+"/patientresult/"+$scope.patientid);
+    var obj = $firebaseObject(refpatient);
 
     var database = new Firebase(refurl + "patientrecord");
     $scope.patientparameter = $firebaseArray(database);
@@ -332,7 +337,7 @@ var starter=angular.module('starter.controllers', ['firebase'])
 
       var res = {
         userid: authData.uid,
-        FromDoctorData3: FromDoctorData1,
+        FromDoctorData1: FromDoctorData1,
         FromDoctorData2:FromDoctorData2,
         FromDoctorData3:FromDoctorData3,
         FromDoctorData4:FromDoctorData4,
@@ -343,11 +348,49 @@ var starter=angular.module('starter.controllers', ['firebase'])
 
 
       $scope.patientparameter.$add(res);
-      $scope.report = true;
-      $ionicPopup.alert({
-        title:'Alert',
-        template:'Patient record has been updated sucessfully'
+      //update result in patientresult
+
+      refpatient.once('value',function(patientSnap)
+      {
+         var patient = patientSnap.val();
+
+      var Formula = parseInt(0.021 * patient.FromPatientData1+0.00005 * patient.FromPatientData2 + 0.0045 * patient.FromPatientData3 +0.0325 * patient.FromPatientData4 +0.112 *patient.FromPatientData5+0.00021 * FromDoctorData1 +0.5 * FromDoctorData2+ 0.435 *FromDoctorData3+0.3525*FromDoctorData4+ FromDoctorData5*0.0009);
+      var result = "";
+      if(Formula==1 || Formula==2)
+      {
+        result = "Good";
+      }
+      else if(Formula==3 || Formula==4)
+      {
+        result = "Fair";
+      }
+      else if(Formula==5 || Formula==6)
+      {
+        result = "Verygood";
+      }
+      else if(Formula==7 || Formula==8)
+      {
+        result = "Excellent";
+      }
+      else
+        {
+          result = "Unknow";
+        }
+
+      obj.result = result;
+      obj.$save().then(function(refpatient) {
+        refpatient.key() === obj.$id; // true
+        /*$ionicPopup.alert({
+          title:'Alert',
+          template:'Patient record has been updated sucessfully'
+        });*/
+        $state.go('record',{'id':$scope.patientid});
+      }, function(error) {
+        console.log("Update result patientresult Error:", error);
       });
+      });
+      //end update
+      $scope.report = true;
 
     };
   })
@@ -495,6 +538,7 @@ var starter=angular.module('starter.controllers', ['firebase'])
         });
         var refuid = new Firebase(refurl+"/users/"+$scope.userid);
         $scope.user = $firebaseObject(refuid);
+
     });
 
 
@@ -761,5 +805,3 @@ refpatient.once("value", function(snapshot) {
   {
 
  })
-
-
