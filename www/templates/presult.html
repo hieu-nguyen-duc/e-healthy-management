@@ -1,31 +1,30 @@
 <ion-view view-title="Diagnose Me">
-    <ion-content class="padding">
-        <div ng-show="!report" >
-            <p class="padding">
-                ENTER THE REQUIRED INFORMATION
-            </p>
-            <label class="item item-input" >
-                <span class="input-label">DP1</span>
-                <input ng-model="parameter.parameter1" type="text" placeholder="ENTER HERE">
-            </label>
-            <label class="item item-input">
-                <span class="input-label">DP2</span>
-                <input ng-model="parameter.parameter2" type="text" placeholder="ENTER HERE">
-            </label>
-            <label class="item item-input">
-                <span class="input-label">DP3</span>
-                <input ng-model="parameter.parameter3" type="text" placeholder="ENTER HERE">
-            </label>
-            <label class="item item-input">
-                <span class="input-label">DP4</span>
-                <input ng-model="parameter.parameter4" type="text" placeholder="ENTER HERE">
-            </label>
-            <label class="item item-input">
-                <span class="input-label">Dp5</span>
-                <input ng-model="parameter.parameter5" type="text" placeholder="ENTER HERE">
-            </label>
-            <button class="button button-balanced button-block"   ng-click="submit()" >SUBMIT</button>
-        </div>
+  <ion-content class="padding">
+    <div ng-show="!report" >
+      <p class="padding">
+        ENTER THE REQUIRED INFORMATION
+      </p>
+      <label class="item item-input" >
+        <span class="input-label">FromDoctorData1</span>
+        <input ng-model="FromDoctorData1" type="text" placeholder="ENTER HERE">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">FromDoctorData2</span>
+        <input ng-model="FromDoctorData2" type="text" placeholder="ENTER HERE">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">FromDoctorData3</span>
+        <input ng-model="FromDoctorData3" type="text" placeholder="ENTER HERE">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">FromDoctorData4</span>
+        <input ng-model="FromDoctorData4" type="text" placeholder="ENTER HERE">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">FromDoctorData5</span>
+        <input ng-model="FromDoctorData5" type="text" placeholder="ENTER HERE">
+      </label>
+      <button class="button button-balanced button-block"   ng-click="submitrecord(FromDoctorData1,FromDoctorData2,FromDoctorData1,FromDoctorData4,FromDoctorData5)" >SUBMIT</button>
+    </div>
 
-    </ion-content>
-</ion-view>
+  </ion-content>

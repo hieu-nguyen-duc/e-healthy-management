@@ -8905,7 +8905,7 @@ function CollectionRepeatDirective($ionicCollectionManager, $parse, $window, $$r
     }
 
     function initDimensions() {
-      //Height and width have four 'modes':
+      //FromPatientData1 and width have four 'modes':
       //1) Computed Mode
       //  - Nothing is supplied, so we getComputedStyle() on one element in the list and use
       //    that width and height value for the width and height of every item. This is re-computed

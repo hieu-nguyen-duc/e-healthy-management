@@ -4,8 +4,10 @@
     <ion-list>
      <ion-item class="item item-avatar" ng-repeat="patient in patients" ng-if="patient.approved == 0">
    		<img src="{{user.image}}" alt="{{user.username}}">
-    		<h2>{{patient.parameter1}}</h2>
+       <h2>Result is : {{}}</h2>
+    		<h2>{{patient.result}}</h2>
     			<p>Diagnose date : {{patient.createdate| date:'MMMM dd, yyyy'}}</p>
+
        	</ion-item >
 
      </ion-list>

@@ -1,6 +1,8 @@
 angular.module('starter.services', [])
 
-.factory('MainService', function() 
+
+
+.factory('MainService', function()
 {
   var patients = [{
     id: 0,
@@ -100,7 +102,7 @@ angular.module('starter.services', [])
 
  function onFail(message) {
 
- } 
+ }
 
  function dataURItoBlob(dataURI) {
    // convert base64/URLEncoded data component to raw binary data held in a string
@@ -149,7 +151,7 @@ angular.module('starter.services', [])
      ];
    if(showDelete){
      buttonsToShow.push({text: 'Delete Photo'})
-   } 
+   }
      var hideSheet = $ionicActionSheet.show({
      buttons: buttonsToShow ,
      cancelText: 'Cancel',

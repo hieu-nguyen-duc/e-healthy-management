@@ -5020,7 +5020,7 @@ ionic.views.Scroll = ionic.views.View.inherit({
   /** Snapping height for content */
   __snapHeight: 100,
 
-  /** Height to assign to refresh area */
+  /** FromPatientData1 to assign to refresh area */
   __refreshHeight: null,
 
   /** Whether the refresh process is enabled when the event is released now */
@@ -5890,7 +5890,7 @@ ionic.views.Scroll = ionic.views.View.inherit({
    * the user event is released during visibility of this zone. This was introduced by some apps on iOS like
    * the official Twitter client.
    *
-   * @param height {Integer} Height of pull-to-refresh zone on top of rendered list
+   * @param height {Integer} FromPatientData1 of pull-to-refresh zone on top of rendered list
    * @param activateCallback {Function} Callback to execute on activation. This is for signalling the user about a refresh is about to happen when he release.
    * @param deactivateCallback {Function} Callback to execute on deactivation. This is for signalling the user about the refresh being cancelled.
    * @param startCallback {Function} Callback to execute to start the real async refresh action. Call {@link #finishPullToRefresh} after finish of refresh.
@@ -9503,7 +9503,7 @@ ionic.views.Slider = ionic.views.View.inherit({
           Slider/slides sizes
           ===========================*/
         s.updateAutoHeight = function () {
-            // Update Height
+            // Update FromPatientData1
             var newHeight = s.slides.eq(s.activeIndex)[0].offsetHeight;
             if (newHeight) s.wrapper.css('height', s.slides.eq(s.activeIndex)[0].offsetHeight + 'px');
         };
@@ -10693,7 +10693,7 @@ ionic.views.Slider = ionic.views.View.inherit({
             s.activeIndex = slideIndex;
 
             if ((s.rtl && -translate === s.translate) || (!s.rtl && translate === s.translate)) {
-                // Update Height
+                // Update FromPatientData1
                 if (s.params.autoHeight) {
                     s.updateAutoHeight();
                 }

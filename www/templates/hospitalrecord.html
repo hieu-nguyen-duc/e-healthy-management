@@ -1,0 +1,62 @@
+<ion-view view-title="{{user.username}}'s Record">
+    <ion-content class="padding">
+        <div style="margin-top: 20px" >
+            <ion-list >
+                <ion-item class="item">
+                    <label class="item-input" >
+                        <span class="input-label">HBA1C</span>
+                      <span class="item-note" >
+                      {{patient.HBA1C}}
+                      </span>
+
+                    </label>
+                </ion-item>
+                <ion-item class="item">
+                    <label class="item-input" >
+                        <span class="input-label">cholesterol</span>
+                      <span class="item-note" >
+                      {{patient.cholesterol}}
+                      </span>
+                    </label>
+                </ion-item>
+                <ion-item class="item">
+                    <label class="item-input" >
+                        <span class="input-label">triglycerid</span>
+                      <span class="item-note" >
+                      {{patient.triglycerid}}
+                      </span>
+                    </label>
+                </ion-item>
+                <ion-item class="item">
+                    <label class="item-input" >
+                        <span class="input-label">HDLC</span>
+                      <span class="item-note" >
+                      {{patient.HDLC}}
+                      </span>
+                    </label>
+                </ion-item>
+                <ion-item class="item">
+                    <label class="item-input" >
+                        <span class="input-label">LDLC</span>
+                      <span class="item-note" >
+                      {{patient.LDLC}}
+                      </span>
+                    </label>
+
+                </ion-item>
+            </ion-list>
+        </div>
+        <div class="list card " style="margin-top: 30px">
+            <ion-item class="item item-divider">
+                System reply:
+            </ion-item>
+            <ion-item class="item item-text-wrap">
+                Excellent.
+            </ion-item>
+        </div>
+        <div class="button-bar ">
+            <a class="button button-positive" href="#edit/{{patientid}}">Approve</a>
+            <a class="button button-balanced" href="#edit/{{patientid}}">Not Approve</a>
+        </div>
+    </ion-content>
+</ion-view>

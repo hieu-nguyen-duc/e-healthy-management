@@ -117,7 +117,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       controller: 'diagnosemeCtrl'
     })
   .state('presult', {
-      url: '/presult:id',
+      url: '/presult',
       templateUrl: 'templates/presult.html',
       controller: 'presultCtrl'
   })
