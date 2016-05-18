@@ -284,9 +284,37 @@ var starter=angular.module('starter.controllers', ['firebase'])
 
     var database = new Firebase(refurl + "patientresult");
     $scope.patientparameter = $firebaseArray(database);
-
+    var refrecord = new Firebase(refurl+"patientrecord");
+    var objrecord;
+    refrecord.endAt().limit(1).once("child_added", function(snapshot) {
+    objrecord = snapshot.val();
+    });
     $scope.submit = function (FromPatientData1,FromPatientData2,FromPatientData3,FromPatientData4,FromPatientData5) {
       //mysharedservice.prepForBroadcast();
+
+      var Formula = parseInt(0.021 * FromPatientData1+0.00005 * FromPatientData2 + 0.0045 * FromPatientData3 +0.0325 * FromPatientData4 +0.112 *FromPatientData5+0.00021 * objrecord.FromDoctorData1 +0.5 * objrecord.FromDoctorData2+ 0.435 *objrecord.FromDoctorData3+0.3525*objrecord.FromDoctorData4+ objrecord.FromDoctorData5*0.0009);
+      var result = "";
+      if(Formula==1 || Formula==2)
+      {
+        result = "Good";
+      }
+      else if(Formula==3 || Formula==4)
+      {
+        result = "Fair";
+      }
+      else if(Formula==5 || Formula==6)
+      {
+        result = "Verygood";
+      }
+      else if(Formula==7 || Formula==8)
+      {
+        result = "Excellent";
+      }
+      else
+        {
+          result = "Unknow";
+        }
+
 
       var res = {
         userid: authData.uid,
@@ -298,25 +326,20 @@ var starter=angular.module('starter.controllers', ['firebase'])
         createdate:  Firebase.ServerValue.TIMESTAMP,
         approved: 0,
         message:'',
-        result:''
+        result:result
       };
       $scope.patientparameter.$add(res);
       $scope.report = true;
-      $ionicPopup.alert({
-
-
+      /*$ionicPopup.alert({
         title:'Alert',
         template:'Your diagnosis has been sent sucessfully+" "'
-
-
-        });
+      });*/
       $state.go('myRecord');
 
     };
   })
 
   .controller('presultCtrl', function($scope,$state,$firebaseArray,Utility,$ionicPopup,$stateParams,$firebaseObject) {
-    debugger;
     $scope.patientid = $stateParams.id;
     var refurl ="https://diagnosediabetes.firebaseio.com/";
     var ref = new Firebase(refurl);
@@ -327,9 +350,9 @@ var starter=angular.module('starter.controllers', ['firebase'])
     else{
       $state.go("app");
     }
-    var refpatient = new Firebase(refurl+"/patientresult/"+$scope.patientid);
+    /*var refpatient = new Firebase(refurl+"/patientresult/"+$scope.patientid);
     var obj = $firebaseObject(refpatient);
-
+*/
     var database = new Firebase(refurl + "patientrecord");
     $scope.patientparameter = $firebaseArray(database);
 
@@ -349,7 +372,7 @@ var starter=angular.module('starter.controllers', ['firebase'])
 
       $scope.patientparameter.$add(res);
       //update result in patientresult
-
+      /*
       refpatient.once('value',function(patientSnap)
       {
          var patient = patientSnap.val();
@@ -380,16 +403,17 @@ var starter=angular.module('starter.controllers', ['firebase'])
       obj.result = result;
       obj.$save().then(function(refpatient) {
         refpatient.key() === obj.$id; // true
-        /*$ionicPopup.alert({
-          title:'Alert',
-          template:'Patient record has been updated sucessfully'
-        });*/
+
         $state.go('record',{'id':$scope.patientid});
       }, function(error) {
         console.log("Update result patientresult Error:", error);
       });
-      });
+    });*/
       //end update
+      $ionicPopup.alert({
+        title:'Alert',
+        template:'Patient record has been updated sucessfully'
+      });
       $scope.report = true;
 
     };
